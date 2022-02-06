@@ -2,7 +2,7 @@
 
 # Submit the signed transaction in ${CARDANO_HOME}/tmp/tx.signed
 
-set -uo pipefail
+set -euo pipefail
 
 trap error_handler ERR
 
