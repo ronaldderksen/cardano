@@ -19,5 +19,5 @@ CARDANO_HOME=$(cd $(dirname $0)/..; /bin/pwd)
 . ${CARDANO_HOME}/include/common.inc
 
 cardano-cli query utxo \
---address $(cat ${CARDANO_HOME}/files-${CARDANO_NET}/payment.addr) \
-${NET_PARAM}
+  --address $(cat ${CARDANO_HOME}/files-${CARDANO_NET}/payment.addr) \
+  ${NET_PARAM}
