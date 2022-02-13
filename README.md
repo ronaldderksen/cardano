@@ -8,10 +8,9 @@ Please be patient. I am in early development.
 I created an RPM, on Rocky linux 8, called cardano to simplify cardano-node and cardano-cli installation. The RPM can be installed with commands:
 
 ```
-wget https://repo.derksen-it.nl/repository/yum/el/8/cardano-1.33.0-1.el8.x86_64.rpm
-rpm -ivh cardano-1.33.0-1.el8.x86_64.rpm
+dnf install https://repo.derksen-it.nl/repository/yum/el/8/derksen-it-release-1-1.x86_64.rpm
+dnf install cardano
 ```
-Instructions to install from dnf/yum repo will follow when package is signed.
 
 ### Derksen IT Pool (DRKSN)
 If you like these scripts, please stake some ADA in my pool.
