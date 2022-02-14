@@ -1,6 +1,6 @@
 Name:           cardano
 Version:        _VERSION_
-Release:        1%{?dist}
+Release:        _RELEASE_%{?dist}
 Summary:        Cardano
 License:        None
 

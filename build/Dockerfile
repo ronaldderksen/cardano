@@ -1,5 +1,8 @@
 FROM rockylinux:latest
 
+ARG VERSION
+ARG RELEASE
+
 RUN yum update -y && \
     yum -y install git gcc gcc-c++ tmux gmp-devel make tar xz wget zlib-devel libtool autoconf jq && \
     yum -y install systemd-devel ncurses-devel ncurses-compat-libs which && \
@@ -29,12 +32,11 @@ RUN cd $HOME/cardano-src && \
 ENV LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 ENV PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
 
-
 RUN cd $HOME/cardano-src && \
     git clone https://github.com/input-output-hk/cardano-node.git && \
     cd cardano-node && \
     git fetch --all --recurse-submodules --tags && \
-    git checkout $(curl -s https://api.github.com/repos/input-output-hk/cardano-node/releases/latest | jq -r .tag_name) && \
+    git checkout $VERSION && \
     cabal configure --with-compiler=ghc-8.10.7 && \
     cabal build cardano-node cardano-cli && \
     mkdir -p $HOME/.local/bin && \
@@ -42,7 +44,8 @@ RUN cd $HOME/cardano-src && \
     cp -p "$(./scripts/bin-path.sh cardano-cli)" $HOME/.local/bin/
 
 COPY cardano.spec /root/
-RUN sed -i "s+_VERSION_+$(curl -s https://api.github.com/repos/input-output-hk/cardano-node/releases/latest | jq -r .tag_name)+" \
-    /root/cardano.spec
+
+RUN sed -i "s|_VERSION_|$VERSION|" /root/cardano.spec
+RUN sed -i "s|_RELEASE_|$RELEASE|" /root/cardano.spec
 
 RUN rpmbuild -bb /root/cardano.spec
