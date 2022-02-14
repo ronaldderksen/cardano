@@ -98,3 +98,4 @@ if [ ! -e ${CARDANO_FILES}/delegation.cert ]; then
     --out-file ${CARDANO_FILES}/delegation.cert
 fi
 
+echo_green "Success"

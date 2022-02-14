@@ -102,4 +102,4 @@ cardano-cli transaction sign \
   ${NET_PARAM} \
   --out-file ${CARDANO_TMP}/tx.signed
 
-echo "run ${CARDANO_HOME}/submit.sh to register pool on network (deposit=${stakePoolDeposit})"
+echo_green "run ${CARDANO_HOME}/submit.sh to register pool on network (deposit=${stakePoolDeposit})"
