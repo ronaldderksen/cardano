@@ -7,6 +7,7 @@
 set -euo pipefail
 
 trap error_handler ERR
+trap shred_tmp_keys EXIT
 
 error_handler()
 {
@@ -27,14 +28,15 @@ gen_hash()
   cardano-cli stake-pool metadata-hash --pool-metadata-file ${CARDANO_TMP}/md.json
 }
 
+tmp_decrypt cold.vkey vrf.vkey stake.vkey
 cardano-cli stake-pool registration-certificate \
-  --cold-verification-key-file ${CARDANO_FILES}/cold.vkey \
-  --vrf-verification-key-file ${CARDANO_FILES}/vrf.vkey \
+  --cold-verification-key-file ${CARDANO_KEYS_DIR}/cold.vkey \
+  --vrf-verification-key-file ${CARDANO_KEYS_DIR}/vrf.vkey \
   --pool-pledge ${POOL_PLEDGE} \
   --pool-cost ${POOL_COSTS} \
   --pool-margin ${POOL_MARGIN} \
-  --pool-reward-account-verification-key-file ${CARDANO_FILES}/stake.vkey \
-  --pool-owner-stake-verification-key-file ${CARDANO_FILES}/stake.vkey \
+  --pool-reward-account-verification-key-file ${CARDANO_KEYS_DIR}/stake.vkey \
+  --pool-owner-stake-verification-key-file ${CARDANO_KEYS_DIR}/stake.vkey \
   ${NET_PARAM} \
   --pool-relay-ipv4 ${POOL_RELAY_IPV4} \
   --pool-relay-port ${POOL_RELAY_PORT} \
@@ -94,12 +96,14 @@ cardano-cli transaction build-raw \
   --certificate-file ${CARDANO_FILES}/pool-registration.cert \
   --certificate-file ${CARDANO_FILES}/delegation.cert
 
+tmp_decrypt payment.skey stake.skey cold.skey
 cardano-cli transaction sign \
   --tx-body-file ${CARDANO_TMP}/tx.raw \
-  --signing-key-file ${CARDANO_FILES}/payment.skey \
-  --signing-key-file ${CARDANO_FILES}/stake.skey \
-  --signing-key-file ${CARDANO_FILES}/cold.skey \
+  --signing-key-file ${CARDANO_KEYS_DIR}/payment.skey \
+  --signing-key-file ${CARDANO_KEYS_DIR}/stake.skey \
+  --signing-key-file ${CARDANO_KEYS_DIR}/cold.skey \
   ${NET_PARAM} \
   --out-file ${CARDANO_TMP}/tx.signed
 
+shred_tmp_keys
 echo_green "run ${CARDANO_HOME}/submit.sh to register pool on network (deposit=${stakePoolDeposit})"

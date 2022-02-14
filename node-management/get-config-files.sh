@@ -3,6 +3,7 @@
 set -euo pipefail
 
 trap error_handler ERR
+trap shred_tmp_keys EXIT
 
 error_handler()
 {

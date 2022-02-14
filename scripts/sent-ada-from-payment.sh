@@ -5,6 +5,7 @@
 set -euo pipefail
 
 trap error_handler ERR
+trap shred_tmp_keys EXIT
 
 error_handler()
 {
@@ -85,10 +86,12 @@ cardano-cli transaction build-raw \
   --fee ${fee} \
   --out-file ${CARDANO_TMP}/tx.raw
 
+tmp_decrypt payment.skey
 cardano-cli transaction sign \
   --tx-body-file ${CARDANO_TMP}/tx.raw \
-  --signing-key-file ${CARDANO_FILES}/payment.skey \
+  --signing-key-file ${CARDANO_KEYS_DIR}/payment.skey \
   ${NET_PARAM} \
   --out-file ${CARDANO_TMP}/tx.signed
 
+shred_tmp_keys
 echo_green "run ${CARDANO_HOME}/submit.sh to sent ${ada_to_sent} ADA to ${dest_address}"

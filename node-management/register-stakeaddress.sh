@@ -6,6 +6,7 @@
 set -euo pipefail
 
 trap error_handler ERR
+trap shred_tmp_keys EXIT
 
 error_handler()
 {
@@ -21,8 +22,9 @@ cardano-cli query protocol-parameters \
   ${NET_PARAM} \
   --out-file ${CARDANO_FILES}/protocol.json
 
+tmp_decrypt stake.vkey
 cardano-cli stake-address registration-certificate \
-  --stake-verification-key-file ${CARDANO_FILES}/stake.vkey \
+  --stake-verification-key-file ${CARDANO_KEYS_DIR}/stake.vkey \
   --out-file ${CARDANO_FILES}/stake.cert
 
 cardano-cli transaction build-raw \
@@ -68,11 +70,13 @@ cardano-cli transaction build-raw \
   --out-file ${CARDANO_TMP}/tx.raw \
   --certificate-file ${CARDANO_FILES}/stake.cert
 
+tmp_decrypt payment.skey stake.skey
 cardano-cli transaction sign \
   --tx-body-file ${CARDANO_TMP}/tx.raw \
-  --signing-key-file ${CARDANO_FILES}/payment.skey \
-  --signing-key-file ${CARDANO_FILES}/stake.skey \
+  --signing-key-file ${CARDANO_KEYS_DIR}/payment.skey \
+  --signing-key-file ${CARDANO_KEYS_DIR}/stake.skey \
   ${NET_PARAM} \
   --out-file ${CARDANO_TMP}/tx.signed
 
+shred_tmp_keys
 echo_green "run ${CARDANO_HOME}/submit.sh to register stake address on network"
