@@ -16,9 +16,9 @@ CARDANO_HOME=$(cd $(dirname $0)/..; /bin/pwd)
 
 for file in config.json byron-genesis.json shelley-genesis.json alonzo-genesis.json topology.json
 do
-  if [ ! -e ${CARDANO_HOME}/files-${CARDANO_NET}/${CARDANO_NET}-${file} ]; then
+  if [ ! -e ${CARDANO_FILES}/${CARDANO_NET}-${file} ]; then
     echo "Curling ${CARDANO_NET}-${file}"
-    curl -s -L --max-redirs 5 -o ${CARDANO_HOME}/files-${CARDANO_NET}/${CARDANO_NET}-${file} \
+    curl -s -L --max-redirs 5 -o ${CARDANO_FILES}/${CARDANO_NET}-${file} \
       https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/${CARDANO_NET}-${file}
   fi 
 done
