@@ -21,5 +21,7 @@ do
     echo "Curling ${CARDANO_NET}-${file}"
     curl -s -L --max-redirs 5 -o ${CARDANO_FILES}/${CARDANO_NET}-${file} \
       https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1/${CARDANO_NET}-${file}
+  else
+    echo "Skipping existing file ${file}"
   fi 
 done
