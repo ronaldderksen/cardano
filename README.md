@@ -1,6 +1,6 @@
 # cardano
 
-Ronald Derksen's scripts to manage a cardano node. These scripts should not be installed on relay or block producing nodes because of cold and KEY keys. I run these scripts from an USB drive on a node, not directly connected to the internet when I need my cold key.
+Ronald Derksen's scripts to manage a cardano node. These scripts should not be installed on relay or block producing nodes because of cold, kes and vrf keys. I run these scripts on a system that does not run 24/7. My keys are also encrypted with GPG.
 
 Please be patient. I am in early development.
 
