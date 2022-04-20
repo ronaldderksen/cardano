@@ -1,7 +1,8 @@
 #! /usr/bin/env bash
 
 VERSION=$(curl -s https://api.github.com/repos/input-output-hk/cardano-node/releases/latest | jq -r .tag_name)
-RELEASE=$(ls 2>/dev/null rpms/x86_64/ |tail -1 | grep -oP "(?<=cardano-${VERSION}-)\d+")
+RELEASE=$(dnf 2>/dev/null info cardano-${VERSION} |grep "^Release" |grep -oP "(?<=: )\d+")
+RELEASE=$(expr ${RELEASE} + 1)
 [ "${RELEASE}" -gt 0 ] 2>/dev/null || RELEASE=1
 
 echo VERSION=$VERSION RELEASE=$RELEASE
