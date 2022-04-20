@@ -8,8 +8,47 @@ Please be patient. I am in early development.
 I created an RPM, on Rocky linux 8, called cardano to simplify cardano-node and cardano-cli installation. The RPM can be installed with commands:
 
 ```
-dnf install https://repo.derksen-it.nl/repository/yum/el/8/derksen-it-release-1-1.x86_64.rpm
-dnf install cardano
+sudo dnf install https://repo.derksen-it.nl/repository/yum/el/8/derksen-it-release-1-1.x86_64.rpm
+sudo dnf install cardano
+. /etc/profile.d/cardano.sh # (or logout and login)
+```
+
+### Getting started
+First install above RPM or make sure you have cardano-node and cardano-cli installed via own method. 
+#### Clone repository
+```
+git clone https://github.com/ronaldderksen/cardano.git
+cd cardano
+```
+#### Running first node
+First 'create' the env file. This file is used by almost all scripts
+```
+cp env.example env
+```
+get config files needed for cardano-node
+```
+./node-management/get-config-files.sh
+```
+set environment variables used for below commands to succeed
+```
+# Example, adjust
+REMOTE_IP=192.168.0.5 ; REMOTE_USER=cardano
+```
+Copy stuff to remote node
+```
+scp templates/run.sh ${REMOTE_USER}@${REMOTE_IP}:/opt/cardano
+scp files-testnet/testnet-*json ${REMOTE_USER}@${REMOTE_IP}:/opt/cardano/config/
+```
+
+Run the node
+```
+# Login to the node where you want to run cardano-node on
+nohup /opt/cardano/run.sh &
+```
+
+Check the log for errors
+```
+tail -f nohup.out
 ```
 
 ### Derksen IT Pool (DRKSN)
