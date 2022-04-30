@@ -29,18 +29,26 @@ gpg --quiet --decrypt -r "${GPG_RECIPIENT}" ${CARDANO_TMP}/test.gpg >${CARDANO_T
 diff -q ${CARDANO_TMP}/test ${0} || exit -1
 echo_green " OK"
 
-FILES_TO_ENCRYPT=(
-  ${CARDANO_FILES}/payment.vkey
-  ${CARDANO_FILES}/payment.skey
-  ${CARDANO_FILES}/stake.vkey
-  ${CARDANO_FILES}/stake.skey
-  ${CARDANO_FILES}/cold.vkey
-  ${CARDANO_FILES}/cold.skey
-  ${CARDANO_FILES}/kes.vkey
-  ${CARDANO_FILES}/kes.skey
-  ${CARDANO_FILES}/vrf.vkey
-  ${CARDANO_FILES}/vrf.skey
-)
+if [ "$#" -gt 0 ]; then
+  FILES_TO_ENCRYPT=()
+  for file in $@
+  do
+    FILES_TO_ENCRYPT[${#FILES_TO_ENCRYPT[@]}]=${CARDANO_FILES}/$file
+  done
+else
+  FILES_TO_ENCRYPT=(
+    ${CARDANO_FILES}/payment.vkey
+    ${CARDANO_FILES}/payment.skey
+    ${CARDANO_FILES}/stake.vkey
+    ${CARDANO_FILES}/stake.skey
+    ${CARDANO_FILES}/cold.vkey
+    ${CARDANO_FILES}/cold.skey
+    ${CARDANO_FILES}/kes.vkey
+    ${CARDANO_FILES}/kes.skey
+    ${CARDANO_FILES}/vrf.vkey
+    ${CARDANO_FILES}/vrf.skey
+  )
+fi
 
 for file in ${FILES_TO_ENCRYPT[@]}
 do
