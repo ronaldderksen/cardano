@@ -1,7 +1,7 @@
 #/usr/bin/env bash
 
-# Encrypt all keys
-# Usage: encrypt-keys.sh
+# Decrypt all keys
+# Usage: decrypt-keys.sh
 
 set -euo pipefail
 

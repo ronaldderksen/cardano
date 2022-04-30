@@ -1,8 +1,7 @@
 #! /usr/bin/env bash
 
-# Register the staking node
-# Usage: register.sh [deposit]
-# Add the deposit parameter when registering for the first time.
+# Show the currnet tip
+# Usage: tip.sh
 
 set -euo pipefail
 

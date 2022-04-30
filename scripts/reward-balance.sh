@@ -1,6 +1,7 @@
 #! /usr/bin/env bash
 
-# Usage: sent-ada-from-payment.sh <ADA> <Destination address>
+# Show the reward balance
+# Usage: reward-balance.sh
 
 set -euo pipefail
 

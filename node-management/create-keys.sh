@@ -1,8 +1,7 @@
 #! /usr/bin/env bash
 
-# Register the staking node
-# Usage: register.sh [deposit]
-# Add the deposit parameter when registering for the first time.
+# Create all keys needed to run and manage cardano nodes
+# Usage: create-keys.sh
 
 set -euo pipefail
 

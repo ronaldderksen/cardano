@@ -1,6 +1,7 @@
 #! /usr/bin/env bash
 
-# Usage: sent-ada-from-payment.sh <ADA> <Destination address>
+# Show the balance on payment address
+# Usage: payment-balance.sh
 
 set -euo pipefail
 

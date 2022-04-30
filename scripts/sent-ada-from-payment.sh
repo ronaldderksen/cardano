@@ -1,5 +1,6 @@
 #! /usr/bin/env bash
 
+# Sent ADA from payment address to other address
 # Usage: sent-ada-from-payment.sh <ADA> <Destination address>
 
 set -euo pipefail
